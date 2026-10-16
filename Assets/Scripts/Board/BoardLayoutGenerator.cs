@@ -74,6 +74,8 @@ public class BoardLayoutGenerator : MonoBehaviour
                     transform
                 );
 
+                space.name = $"Space_{spaceNumber:D3}";
+
                 space.transform.localPosition = position;
                 space.transform.localRotation = Quaternion.identity;
 
@@ -125,5 +127,43 @@ public class BoardLayoutGenerator : MonoBehaviour
         generatedSpaces.Clear();
 
         Debug.Log("Previous board spaces cleared.");
+    }
+
+    /// <summary>
+    /// Returns the Transform of a space given its space number
+    /// </summary>
+    /// <param name="spaceNumber">The space number of the space </param>
+    /// <returns>The Transform of the space</returns>
+    public Transform GetSpaceTransform(int spaceNumber)
+    {
+        if (spaceNumber < 1 || spaceNumber > generatedSpaces.Count)
+        {
+            Debug.LogError(
+                $"Invalid space number: {spaceNumber}"
+            );
+
+            return null;
+        }
+
+        int index = spaceNumber - 1;
+
+        return generatedSpaces[index];
+    }
+
+    /// <summary>
+    /// Returns the position of a space given its space number
+    /// </summary>
+    /// <param name="spaceNumber">The space number of the space</param>
+    /// <returns>The position of the space</returns>
+    public Vector3 GetSpaceWorldPosition(int spaceNumber)
+    {
+        Transform space = GetSpaceTransform(spaceNumber);
+
+        if (space == null)
+        {
+            return Vector3.zero;
+        }
+
+        return space.position;
     }
 }
