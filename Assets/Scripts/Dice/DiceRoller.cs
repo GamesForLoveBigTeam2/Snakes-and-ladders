@@ -17,7 +17,7 @@ public class DiceRoller : MonoBehaviour
     /// <returns> integer between 1 and 6 </returns>
     public int RollDice()
     {
-        previousRoll = UnityEngine.Random.Range(1, 7);
+        previousRoll = Random.Range(1, 7);
         OnDiceRolled?.Invoke(previousRoll);
         
         return previousRoll;
