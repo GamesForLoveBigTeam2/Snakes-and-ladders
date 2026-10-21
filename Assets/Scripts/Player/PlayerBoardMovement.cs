@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class PlayerBoardMovement : MonoBehaviour
     private bool isMoving = false;
 
     public bool IsMoving => isMoving;
+
+    public event Action OnMovementCompleted;
 
     private void Awake()
     {
@@ -75,5 +78,23 @@ public class PlayerBoardMovement : MonoBehaviour
         }
 
         isMoving = false;
+        OnMovementCompleted?.Invoke();
+    }
+
+    public void MoveToSpace(int destinationSpace)
+    {
+        if (isMoving || positionTracker == null || boardManager == null)
+            return;
+
+        Transform target = boardManager.GetBoardSpace(destinationSpace);
+
+        if (target == null)
+        {
+            Debug.LogWarning($"Board space {destinationSpace} not found.");
+            return;
+        }
+
+        transform.position = target.position;
+        positionTracker.SetPosition(destinationSpace);
     }
 }
