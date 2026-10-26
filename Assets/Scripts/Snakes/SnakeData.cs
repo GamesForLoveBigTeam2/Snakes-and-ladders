@@ -8,6 +8,6 @@ public class SnakeData
     [Range(1, 100)]
     public int startSpace = 24;
 
-    [Min(1)]
+    [Range(1,100)]
     public int destinationSpace = 7;
 }
