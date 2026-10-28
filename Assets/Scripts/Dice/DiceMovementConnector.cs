@@ -32,8 +32,18 @@ public class DiceMovementConnector : MonoBehaviour
     /// 
     private void HandleDiceRolled(int result)
     {
-        diceRollResultLabel.text = $"You rolled a {result}";
-        
+        if (diceRollResultLabel != null)
+        {
+            diceRollResultLabel.text = $"You rolled a {result}";
+        }
+        else
+        {
+            Debug.LogWarning(
+                "Dice Roll Result Label is not assigned!",
+                this
+            );
+        }
+
         if (turnManager == null)
         {
             Debug.LogError("TurnManager is not assigned!", this);
