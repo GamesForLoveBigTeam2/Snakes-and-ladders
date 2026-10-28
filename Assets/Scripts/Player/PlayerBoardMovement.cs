@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
@@ -16,7 +15,13 @@ public class PlayerBoardMovement : MonoBehaviour
 
     public bool IsMoving => isMoving;
 
+    // Fires when one movement leg finishes.
+    // Snake and ladder triggers listen to this event.
     public event Action OnMovementCompleted;
+
+    // Fires when the entire movement sequence finishes,
+    // including any snake or ladder movement.
+    public event Action OnMovementSequenceCompleted;
 
     private void Awake()
     {
@@ -29,20 +34,23 @@ public class PlayerBoardMovement : MonoBehaviour
         if (isMoving || spacesToMove <= 0)
             return;
 
-        if (positionTracker == null || boardManager == null)
+        if (!HasValidReferences())
+            return;
+
+        if (boardManager.TotalSpaces < 1)
         {
-            Debug.LogError("Missing movement references!");
+            Debug.LogWarning("The board has no spaces.", this);
             return;
         }
 
+        isMoving = true;
         StartCoroutine(MoveBetweenSpaces(spacesToMove));
     }
 
     private IEnumerator MoveBetweenSpaces(int spacesToMove)
     {
-        isMoving = true;
-
         int currentSpace = positionTracker.CurrentSpace;
+
         int destination = Mathf.Min(
             currentSpace + spacesToMove,
             boardManager.TotalSpaces
@@ -55,46 +63,95 @@ public class PlayerBoardMovement : MonoBehaviour
             Transform target = boardManager.GetBoardSpace(space);
 
             if (target == null)
-                break;
-
-            while (Vector3.Distance(
-                transform.position, target.position) > 0.01f)
             {
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    target.position,
-                    moveSpeed * Time.deltaTime
-                );
-
-                yield return null;
+                Debug.LogError($"Board space {space} was not found.", this);
+                break;
             }
 
-            transform.position = target.position;
+            yield return MoveToPosition(target.position);
 
-            // Update the existing tracking system.
             positionTracker.SetPosition(space);
 
-            Debug.Log($"Player reached space {space}");
+            Debug.Log($"Player reached space {space}.");
         }
 
-        isMoving = false;
-        OnMovementCompleted?.Invoke();
+        FinishMovementLeg();
     }
 
     public void MoveToSpace(int destinationSpace)
     {
-        if (isMoving || positionTracker == null || boardManager == null)
+        if (isMoving || !HasValidReferences())
             return;
 
         Transform target = boardManager.GetBoardSpace(destinationSpace);
 
         if (target == null)
         {
-            Debug.LogWarning($"Board space {destinationSpace} not found.");
+            Debug.LogWarning(
+                $"Board space {destinationSpace} not found.", this);
             return;
         }
 
-        transform.position = target.position;
+        // Lock movement immediately to prevent another action
+        // from starting before this movement begins.
+        isMoving = true;
+
+        StartCoroutine(MoveToSpecialSpace(destinationSpace, target));
+    }
+
+    private IEnumerator MoveToSpecialSpace(
+        int destinationSpace, Transform target)
+    {
+        yield return MoveToPosition(target.position);
+
         positionTracker.SetPosition(destinationSpace);
+
+        Debug.Log($"Player moved to space {destinationSpace}.");
+
+        FinishMovementLeg();
+    }
+
+    private IEnumerator MoveToPosition(Vector3 destination)
+    {
+        while (Vector3.Distance(transform.position, destination) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                destination,
+                moveSpeed * Time.deltaTime
+            );
+
+            yield return null;
+        }
+
+        transform.position = destination;
+    }
+
+    private void FinishMovementLeg()
+    {
+        // This leg is finished.
+        isMoving = false;
+
+        // Let snake and ladder triggers check the new space.
+        OnMovementCompleted?.Invoke();
+
+        // A trigger may have started another movement leg.
+        // If so, wait for that leg to finish before declaring
+        // the complete sequence finished.
+        if (!isMoving)
+        {
+            OnMovementSequenceCompleted?.Invoke();
+        }
+    }
+
+    private bool HasValidReferences()
+    {
+        if (positionTracker == null || boardManager == null)
+        {
+            Debug.LogError("Missing movement references!", this);
+            return false;
+        }
+
+        return true;
     }
 }
