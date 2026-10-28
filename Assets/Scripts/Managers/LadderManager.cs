@@ -10,11 +10,11 @@ public class LadderManager : MonoBehaviour
 {
     private Dictionary<int, int> ladders = new Dictionary<int, int>()
     {
-        { 3, 7 },
+        { 2, 21 },
         { 8, 30 },
-        { 28, 56 },
-        { 45, 67 },
-        { 71, 92 }
+        { 13, 37 },
+        { 27, 53 },
+        { 41, 58 }
     };
 
     public bool IsLadder(int spaceNumber)
