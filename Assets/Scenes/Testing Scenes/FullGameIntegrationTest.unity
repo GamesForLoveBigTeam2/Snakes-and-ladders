@@ -4793,6 +4793,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b12d8a0c8784ca98d3b1ebd59b1ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LadderManager
+  ladderData:
+  - startSpace: 2
+    destinationSpace: 21
+  - startSpace: 8
+    destinationSpace: 30
+  - startSpace: 13
+    destinationSpace: 37
+  - startSpace: 41
+    destinationSpace: 58
+  - startSpace: 27
+    destinationSpace: 53
 --- !u!4 &1098282710
 Transform:
   m_ObjectHideFlags: 0
