@@ -15,6 +15,10 @@ public class TurnManager : MonoBehaviour
     private int currentPlayerIndex;
     private bool isTurnInProgress;
 
+    private bool gameOver = false;
+
+    public bool GameOver => gameOver;
+
     public PlayerBoardMovement CurrentPlayer
     {
         get
@@ -37,6 +41,7 @@ public class TurnManager : MonoBehaviour
     public event Action<PlayerBoardMovement> OnCurrentPlayerChanged;
 
     public bool CanCurrentPlayerAct =>
+    !gameOver &&
     !isTurnInProgress &&
     CurrentPlayer != null &&
     !CurrentPlayer.IsMoving;
@@ -55,11 +60,22 @@ public class TurnManager : MonoBehaviour
         // Listen for each player's complete movement sequence.
         foreach (PlayerBoardMovement player in players)
         {
-            if (player != null)
-            {
-                player.OnMovementSequenceCompleted
-                    += HandleMovementSequenceCompleted;
-            }
+            if (player == null)
+                continue;
+
+            player.OnMovementSequenceCompleted +=
+                HandleMovementSequenceCompleted;
+
+            FinalSpaceDetector detector =
+                player.GetComponent<FinalSpaceDetector>();
+
+            if (detector != null)
+                detector.OnPlayerWon += HandlePlayerWon;
+            else
+                Debug.LogWarning(
+                    $"No FinalSpaceDetector found on {player.name}.",
+                    player
+                );
         }
 
         AnnounceCurrentPlayer();
@@ -69,16 +85,28 @@ public class TurnManager : MonoBehaviour
     {
         foreach (PlayerBoardMovement player in players)
         {
-            if (player != null)
-            {
-                player.OnMovementSequenceCompleted
-                    -= HandleMovementSequenceCompleted;
-            }
+            if (player == null)
+                continue;
+
+            player.OnMovementSequenceCompleted -=
+                HandleMovementSequenceCompleted;
+
+            FinalSpaceDetector detector =
+                player.GetComponent<FinalSpaceDetector>();
+
+            if (detector != null)
+                detector.OnPlayerWon -= HandlePlayerWon;
         }
     }
 
     public void TryMoveCurrentPlayer(int spacesToMove)
     {
+        if (gameOver)
+        {
+            Debug.Log("The game is over. No more moves are allowed.");
+            return;
+        }
+        
         if (isTurnInProgress)
         {
             Debug.Log("Please wait for the current turn to finish.");
@@ -115,13 +143,12 @@ public class TurnManager : MonoBehaviour
 
     private void HandleMovementSequenceCompleted()
     {
-        if (!isTurnInProgress)
+        if (gameOver || !isTurnInProgress)
             return;
 
         isTurnInProgress = false;
 
-        Debug.Log(
-            $"{CurrentPlayer.name} has finished their turn.");
+        Debug.Log($"{CurrentPlayer.name} has finished their turn.");
 
         AdvanceTurn();
     }
@@ -144,5 +171,18 @@ public class TurnManager : MonoBehaviour
         Debug.Log($"It is now {player.name}'s turn.");
 
         OnCurrentPlayerChanged?.Invoke(player);
+    }
+
+    private void HandlePlayerWon()
+    {
+        if (gameOver)
+            return;
+
+        gameOver = true;
+
+        Debug.Log("GAME OVER! A player has won.");
+
+        // Prevent any further turn progression.
+        isTurnInProgress = false;
     }
 }
