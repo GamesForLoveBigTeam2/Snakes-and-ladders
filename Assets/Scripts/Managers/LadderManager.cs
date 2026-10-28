@@ -1,21 +1,41 @@
+
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Stores ladder start and destination spaces on the board. 
-/// Provides methods to check for ladders and retrieve their destinations.
+/// Stores ladder start and destination spaces on the board.
+/// Designers can configure ladders in the Unity Inspector.
 /// </summary>
-
 public class LadderManager : MonoBehaviour
 {
-    private Dictionary<int, int> ladders = new Dictionary<int, int>()
+    [Serializable]
+    public class Ladder
     {
-        { 2, 21 },
-        { 8, 30 },
-        { 13, 37 },
-        { 27, 53 },
-        { 41, 58 }
-    };
+        public int startSpace;
+        public int destinationSpace;
+    }
+
+    [SerializeField]
+    private List<Ladder> ladderData = new List<Ladder>();
+
+    private Dictionary<int, int> ladders = new Dictionary<int, int>();
+
+    private void Awake()
+    {
+        foreach (Ladder ladder in ladderData)
+        {
+            if (ladders.ContainsKey(ladder.startSpace))
+            {
+                Debug.LogWarning(
+                    $"Duplicate ladder starting at space {ladder.startSpace}"
+                );
+                continue;
+            }
+
+            ladders.Add(ladder.startSpace, ladder.destinationSpace);
+        }
+    }
 
     public bool IsLadder(int spaceNumber)
     {
@@ -26,19 +46,4 @@ public class LadderManager : MonoBehaviour
     {
         return ladders.TryGetValue(spaceNumber, out destination);
     }
-
-    private void Start()
-    {
-        int destination;
-
-        if (TryGetLadderDestination(8, out destination))
-        {
-            Debug.Log($"Ladder leads to space {destination}");
-        }
-        else
-        {
-            Debug.Log("No ladder here");
-        }
-    }
-
 }
