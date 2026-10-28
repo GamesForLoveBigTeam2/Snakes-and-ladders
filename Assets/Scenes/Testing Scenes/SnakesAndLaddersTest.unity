@@ -1950,6 +1950,7 @@ GameObject:
   - component: {fileID: 1900832860}
   - component: {fileID: 1900832859}
   - component: {fileID: 1900832863}
+  - component: {fileID: 1900832864}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -2076,6 +2077,21 @@ MonoBehaviour:
   playerMovement: {fileID: 1900832859}
   positionTracker: {fileID: 1900832860}
   snakeManager: {fileID: 632012370}
+--- !u!114 &1900832864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900832857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a0753f1e5bc4be18fdbef62483cbba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLadderTrigger
+  playerMovement: {fileID: 1900832859}
+  positionTracker: {fileID: 1900832860}
+  ladderManager: {fileID: 996235286}
 --- !u!1 &1909657533
 GameObject:
   m_ObjectHideFlags: 0

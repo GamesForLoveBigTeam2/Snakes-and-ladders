@@ -11,6 +11,12 @@ public class FinalSpaceDetector : MonoBehaviour
 
     private bool hasWon = false;
 
+    private void Awake()
+    {
+        if (positionTracker == null)
+            positionTracker = GetComponent<PlayerPositionTracker>();
+    }
+
     private void OnEnable()
     {
         if (positionTracker != null)
@@ -32,7 +38,7 @@ public class FinalSpaceDetector : MonoBehaviour
         {
             hasWon = true;
 
-            Debug.Log("Player reached the final space!");
+            Debug.Log($"{gameObject.name} reached the final space and won!");
 
             OnPlayerWon?.Invoke();
         }
