@@ -170,10 +170,13 @@ public class TurnManager : MonoBehaviour
         if (player == null)
             return;
 
-        Debug.Log($"It is now {player.name}'s turn.");
         playerTurn.text = $"It's {player.name}'s turn.";
 
         OnCurrentPlayerChanged?.Invoke(player);
+        
+        // Auto Play for CPU Players
+        int humanCount = TotalPlayerManager.HumanPlayerCount;
+        if (humanCount > 0 && CurrentPlayerNumber > humanCount) { AutoPlay(); }
     }
 
     private void HandlePlayerWon()
@@ -188,4 +191,14 @@ public class TurnManager : MonoBehaviour
         // Prevent any further turn progression.
         isTurnInProgress = false;
     }
+
+    private void AutoPlay()
+{
+    if (!CanCurrentPlayerAct) { return; }
+
+    // Example: automatically roll a six-sided die.
+    int spacesToMove = UnityEngine.Random.Range(1, 7);
+
+    TryMoveCurrentPlayer(spacesToMove);
+}
 }
