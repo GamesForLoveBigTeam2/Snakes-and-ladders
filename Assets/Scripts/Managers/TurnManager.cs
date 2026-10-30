@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
     [Header("Players")]
+    [SerializeField] private TextMeshProUGUI playerTurn;
     [SerializeField]
     private List<PlayerBoardMovement> players =
         new List<PlayerBoardMovement>();
@@ -169,6 +171,7 @@ public class TurnManager : MonoBehaviour
             return;
 
         Debug.Log($"It is now {player.name}'s turn.");
+        playerTurn.text = $"It's {player.name}'s turn.";
 
         OnCurrentPlayerChanged?.Invoke(player);
     }
