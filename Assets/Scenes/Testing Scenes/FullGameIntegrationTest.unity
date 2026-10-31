@@ -3668,7 +3668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBoardMovement
   positionTracker: {fileID: 616158419}
   boardManager: {fileID: 686510705}
-  moveSpeed: 4
+  moveSpeed: 20
 --- !u!114 &616158419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5341,7 +5341,7 @@ SpriteRenderer:
   m_Size: {x: 1.44, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!4 &817730023
@@ -5709,8 +5709,6 @@ MonoBehaviour:
   players:
   - {fileID: 3302258102122446962}
   - {fileID: 616158418}
-  - {fileID: 1499954298}
-  - {fileID: 1118698545}
   startingPlayerIndex: 0
 --- !u!4 &868744293
 Transform:
@@ -10120,7 +10118,7 @@ SpriteRenderer:
   m_Size: {x: 1.44, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!4 &1527734752
@@ -12963,7 +12961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBoardMovement
   positionTracker: {fileID: 6862865139485119503}
   boardManager: {fileID: 686510705}
-  moveSpeed: 4
+  moveSpeed: 20
 --- !u!1001 &4394542930207161315
 PrefabInstance:
   m_ObjectHideFlags: 0
