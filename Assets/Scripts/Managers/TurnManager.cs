@@ -188,6 +188,8 @@ public class TurnManager : MonoBehaviour
 
         Debug.Log("GAME OVER! A player has won.");
 
+        AudioManager.Instance?.PlaySound(SoundType.PlayerWin);
+
         // Prevent any further turn progression.
         isTurnInProgress = false;
     }

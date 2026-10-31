@@ -72,6 +72,8 @@ public class PlayerBoardMovement : MonoBehaviour
 
             positionTracker.SetPosition(space);
 
+            AudioManager.Instance?.PlaySound(SoundType.PlayerMove);
+
             Debug.Log($"Player reached space {space}.");
         }
 
@@ -105,6 +107,8 @@ public class PlayerBoardMovement : MonoBehaviour
         yield return MoveToPosition(target.position);
 
         positionTracker.SetPosition(destinationSpace);
+
+        AudioManager.Instance?.PlaySound(SoundType.PlayerMove);
 
         Debug.Log($"Player moved to space {destinationSpace}.");
 
