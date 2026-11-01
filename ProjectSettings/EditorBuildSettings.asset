@@ -17,5 +17,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Scenes/old.unity
     guid: 241ad5c87cf544a37919bc57032ceb06
+  - enabled: 1
+    path: Assets/Scenes/Main Scenes/1 Player.unity
+    guid: 98117aa7d488c77439452bc0faadc514
+  - enabled: 1
+    path: Assets/Scenes/Main Scenes/2 Player.unity
+    guid: 118e5a6236d3abd4085e2e330d23d971
+  - enabled: 1
+    path: Assets/Scenes/Main Scenes/3 Player.unity
+    guid: 64e6041ed814e71448bc8de8d65153dd
+  - enabled: 1
+    path: Assets/Scenes/Main Scenes/4 Player.unity
+    guid: 7c22ef1595020f445b25989688f47698
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

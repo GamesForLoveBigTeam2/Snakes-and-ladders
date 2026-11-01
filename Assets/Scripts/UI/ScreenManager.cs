@@ -9,7 +9,22 @@ public class ScreenManager : MonoBehaviour
     {
         playerPanel.SetActive(false);
     }
-    
+      public void OpenPlayer1()
+    {
+        SceneManager.LoadScene("1 Player");
+    }
+     public void OpenPlayer2()
+    {
+        SceneManager.LoadScene("2 Player");
+    }
+     public void OpenPlayer3()
+    {
+        SceneManager.LoadScene("3 Player");
+    }
+     public void OpenPlayer4()
+    {
+        SceneManager.LoadScene("4 Player");
+    }
      public void OpenGame()
     {
         SceneManager.LoadScene("Game");
