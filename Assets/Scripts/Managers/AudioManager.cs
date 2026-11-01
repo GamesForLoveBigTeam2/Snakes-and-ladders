@@ -19,6 +19,7 @@ public enum SoundType
     Bubble,
     PlayerWin,
     PlayerLose,
+    ShipHorn,
 }
  
 public class AudioManager : MonoBehaviour

@@ -48,6 +48,7 @@ public class PlayerSnakeTrigger : MonoBehaviour
                 $"to {destination}");
 
             AudioManager.Instance?.PlaySound(SoundType.SnakeSlide);
+            AudioManager.Instance?.PlaySound(SoundType.ShipHorn);
             playerMovement.MoveToSpace(destination);
         }
     }
