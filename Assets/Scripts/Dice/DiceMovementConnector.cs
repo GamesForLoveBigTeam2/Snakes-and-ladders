@@ -31,17 +31,25 @@ public class DiceMovementConnector : MonoBehaviour
     /// <param name="result">Number of spaces rolled.</param>
     /// 
     private void HandleDiceRolled(int result)
+{
+    if (turnManager == null)
     {
-        if (!turnManager.CanCurrentPlayerAct)
-        {
-            Debug.Log("Cannot roll right now. Please wait.");
-            return;
-        }
-        if (diceAnimator != null)
-        {
-            diceAnimator.SetInteger("DiceNum", result);
-            diceAnimator.SetTrigger("Roll");
-        }
-        turnManager.TryMoveCurrentPlayer(result);
+        Debug.LogError("TurnManager is not assigned!", this);
+        return;
     }
+
+    if (!turnManager.CanCurrentPlayerAct)
+    {
+        Debug.Log("Cannot roll right now. Please wait.");
+        return;
+    }
+
+    if (diceAnimator != null)
+    {
+        diceAnimator.SetInteger("DiceNum", result);
+        diceAnimator.SetTrigger("Roll");
+    }
+
+    turnManager.TryMoveCurrentPlayer(result);
+}
 }

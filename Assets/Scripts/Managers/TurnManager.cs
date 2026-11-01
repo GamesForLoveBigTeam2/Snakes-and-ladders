@@ -6,6 +6,7 @@ using TMPro;
 public class TurnManager : MonoBehaviour
 {
     [Header("Players")]
+    [SerializeField] private DiceRoller diceRoller;
     [SerializeField] private TextMeshProUGUI playerTurn;
     [SerializeField]
     private List<PlayerBoardMovement> players =
@@ -16,9 +17,7 @@ public class TurnManager : MonoBehaviour
 
     private int currentPlayerIndex;
     private bool isTurnInProgress;
-
     private bool gameOver = false;
-
     public bool GameOver => gameOver;
 
     public PlayerBoardMovement CurrentPlayer
@@ -170,7 +169,7 @@ public class TurnManager : MonoBehaviour
         if (player == null)
             return;
 
-        playerTurn.text = $"It's {player.name}'s turn.";
+        playerTurn.text = $"{player.name}'s turn.";
 
         OnCurrentPlayerChanged?.Invoke(player);
         
@@ -193,12 +192,20 @@ public class TurnManager : MonoBehaviour
     }
 
     private void AutoPlay()
-{
-    if (!CanCurrentPlayerAct) { return; }
+    {
+        if (!CanCurrentPlayerAct)
+        {
+            return;
+        }
 
-    // Example: automatically roll a six-sided die.
-    int spacesToMove = UnityEngine.Random.Range(1, 7);
+        if (diceRoller == null)
+        {
+            Debug.LogError("DiceRoller is not assigned!", this);
+            return;
+        }
 
-    TryMoveCurrentPlayer(spacesToMove);
-}
+        // Fires OnDiceRolled so DiceMovementConnector
+        // plays the animation and moves the AI.
+        diceRoller.RollDice();
+    }
 }
