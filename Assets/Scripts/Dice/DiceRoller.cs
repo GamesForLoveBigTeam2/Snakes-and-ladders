@@ -26,6 +26,10 @@ public class DiceRoller : MonoBehaviour
     public int RollDice()
     {
         previousRoll = UnityEngine.Random.Range(1, 7);
+
+        AudioManager.Instance?.PlayDiceRoll(previousRoll);
+        AudioManager.Instance?.PlaySound(SoundType.Bubble);
+
         OnDiceRolled?.Invoke(previousRoll);
         Debug.Log($"Dice rolled: {previousRoll}");
 

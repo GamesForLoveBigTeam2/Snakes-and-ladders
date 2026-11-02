@@ -43,6 +43,7 @@ public class PlayerLadderTrigger : MonoBehaviour
         {
             Debug.Log($"Ladder found! Move from {currentSpace} to {destination}");
 
+            AudioManager.Instance?.PlaySound(SoundType.LadderClimb);
             playerMovement.MoveToSpace(destination);
         }
     }
