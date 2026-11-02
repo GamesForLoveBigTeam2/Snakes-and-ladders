@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
     [Header("Players")]
+    [SerializeField] private DiceRoller diceRoller;
+    [SerializeField] private TextMeshProUGUI playerTurn;
     [SerializeField]
     private List<PlayerBoardMovement> players =
         new List<PlayerBoardMovement>();
@@ -14,9 +17,7 @@ public class TurnManager : MonoBehaviour
 
     private int currentPlayerIndex;
     private bool isTurnInProgress;
-
     private bool gameOver = false;
-
     public bool GameOver => gameOver;
 
     public PlayerBoardMovement CurrentPlayer
@@ -168,9 +169,13 @@ public class TurnManager : MonoBehaviour
         if (player == null)
             return;
 
-        Debug.Log($"It is now {player.name}'s turn.");
+        playerTurn.text = $"{player.name}'s turn.";
 
         OnCurrentPlayerChanged?.Invoke(player);
+        
+        // Auto Play for CPU Players
+        int humanCount = TotalPlayerManager.HumanPlayerCount;
+        if (humanCount > 0 && CurrentPlayerNumber > humanCount) { AutoPlay(); }
     }
 
     private void HandlePlayerWon()
@@ -186,5 +191,23 @@ public class TurnManager : MonoBehaviour
 
         // Prevent any further turn progression.
         isTurnInProgress = false;
+    }
+
+    private void AutoPlay()
+    {
+        if (!CanCurrentPlayerAct)
+        {
+            return;
+        }
+
+        if (diceRoller == null)
+        {
+            Debug.LogError("DiceRoller is not assigned!", this);
+            return;
+        }
+
+        // Fires OnDiceRolled so DiceMovementConnector
+        // plays the animation and moves the AI.
+        diceRoller.RollDice();
     }
 }

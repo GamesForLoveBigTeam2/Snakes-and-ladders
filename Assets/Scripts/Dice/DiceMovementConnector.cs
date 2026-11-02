@@ -11,7 +11,7 @@ public class DiceMovementConnector : MonoBehaviour
 {
     [SerializeField] private DiceRoller diceRoller;
     [SerializeField] private TurnManager turnManager;
-    [SerializeField] private TMP_Text diceRollResultLabel;
+    [SerializeField] private Animator diceAnimator;
 
     private void OnEnable()
     {
@@ -31,31 +31,25 @@ public class DiceMovementConnector : MonoBehaviour
     /// <param name="result">Number of spaces rolled.</param>
     /// 
     private void HandleDiceRolled(int result)
+{
+    if (turnManager == null)
     {
-        if (diceRollResultLabel != null)
-        {
-            diceRollResultLabel.text = $"You rolled a {result}";
-        }
-        else
-        {
-            Debug.LogWarning(
-                "Dice Roll Result Label is not assigned!",
-                this
-            );
-        }
-
-        if (turnManager == null)
-        {
-            Debug.LogError("TurnManager is not assigned!", this);
-            return;
-        }
-
-        if (!turnManager.CanCurrentPlayerAct)
-        {
-            Debug.Log("Cannot roll right now. Please wait.");
-            return;
-        }
-
-        turnManager.TryMoveCurrentPlayer(result);
+        Debug.LogError("TurnManager is not assigned!", this);
+        return;
     }
+
+    if (!turnManager.CanCurrentPlayerAct)
+    {
+        Debug.Log("Cannot roll right now. Please wait.");
+        return;
+    }
+
+    if (diceAnimator != null)
+    {
+        diceAnimator.SetInteger("DiceNum", result);
+        diceAnimator.SetTrigger("Roll");
+    }
+
+    turnManager.TryMoveCurrentPlayer(result);
+}
 }
