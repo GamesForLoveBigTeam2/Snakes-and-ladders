@@ -7,7 +7,7 @@ public class FinalSpaceDetector : MonoBehaviour
     [SerializeField] private PlayerPositionTracker positionTracker;
     [SerializeField] private BoardSpaceManager boardManager;
 
-    public event Action OnPlayerWon;
+    public event Action<string> OnPlayerWon;
 
     private bool hasWon = false;
 
@@ -40,7 +40,7 @@ public class FinalSpaceDetector : MonoBehaviour
 
             Debug.Log($"{gameObject.name} reached the final space and won!");
 
-            OnPlayerWon?.Invoke();
+            OnPlayerWon?.Invoke(gameObject.name);
         }
     }
 }
