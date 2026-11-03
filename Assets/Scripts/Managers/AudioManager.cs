@@ -20,6 +20,7 @@ public enum SoundType
     PlayerWin,
     PlayerLose,
     ShipHorn,
+    MenuMusic,
 }
  
 public class AudioManager : MonoBehaviour
