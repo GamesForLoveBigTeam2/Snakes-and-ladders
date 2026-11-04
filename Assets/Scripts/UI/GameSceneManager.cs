@@ -22,10 +22,12 @@ public class GameSceneManager : MonoBehaviour
 
     public void OpenPausePanel()
     {
+        Time.timeScale = 0f;
         pausePanel.SetActive(true);
     }
     public void ClosePausePanel()
     {
         pausePanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

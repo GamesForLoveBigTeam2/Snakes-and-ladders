@@ -1729,7 +1729,7 @@ MonoBehaviour:
   - soundType: 12
     audioClip:
     - {fileID: 8300000, guid: c8ef18009d18541da8d05c3f5eb71571, type: 3}
-    volume: 0.085
+    volume: 0.02
 --- !u!4 &528410074
 Transform:
   m_ObjectHideFlags: 0
