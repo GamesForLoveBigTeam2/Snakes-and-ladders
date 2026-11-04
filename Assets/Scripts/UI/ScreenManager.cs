@@ -4,15 +4,19 @@ using UnityEngine.SceneManagement;
 public class ScreenManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPanel;
-    
-    public void Start()
+
+    private void Start()
     {
         playerPanel.SetActive(false);
+
+        AudioManager.Instance?.PlayMusic(SoundType.MenuMusic);
     }
-  
-     public void OpenGame()
+
+    public void OpenGame()
     {
         SceneManager.LoadScene("Game");
+
+        AudioManager.Instance?.StopMusic();
     }
 
     public void OpenTitle()

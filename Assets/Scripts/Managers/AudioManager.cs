@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 /// <summary>
 /// Every sound the game can play. Add new sounds here, then assign
 /// a clip to them in the AudioManager's Inspector.
@@ -22,11 +22,11 @@ public enum SoundType
     ShipHorn,
     MenuMusic,
 }
- 
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
- 
+
     [System.Serializable]
     private class SoundEntry
     {
@@ -35,17 +35,17 @@ public class AudioManager : MonoBehaviour
         public AudioClip[] audioClip;
         [Range(0f, 1f)] public float volume = 1f;
     }
- 
+
     [SerializeField] private SoundEntry[] soundEntries;
- 
+
     private AudioSource audioSource;
- 
+
     private Dictionary<SoundType, SoundEntry> soundLookup;
- 
+
     private const string MasterVolumeKey = "MasterVolume";
- 
+
     public float MasterVolume { get; private set; } = 1f;
- 
+
     /// <summary>
     /// Verifies that the instance points to the correct AudioManager
     /// and locates the corresponding AudioSource. Has a check to ensure
@@ -59,27 +59,27 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
- 
+
         Instance = this;
- 
+
         audioSource = GetComponent<AudioSource>();
- 
+
         if (audioSource == null)
         {
             Debug.LogError("AudioManager requires a AudioSource component.");
             enabled = false;
             return;
         }
- 
+
         transform.parent = null;
- 
+
         DontDestroyOnLoad(gameObject);
- 
+
         BuildSoundLookup();
- 
+
         SetMasterVolume(PlayerPrefs.GetFloat(MasterVolumeKey, 1f));
     }
- 
+
     /// <summary>
     /// Builds a dictionary from the Inspector list so sounds can be
     /// found quickly by their SoundType. Warns about missing clips
@@ -88,12 +88,12 @@ public class AudioManager : MonoBehaviour
     private void BuildSoundLookup()
     {
         soundLookup = new Dictionary<SoundType, SoundEntry>();
- 
+
         if (soundEntries == null)
         {
             return;
         }
- 
+
         foreach (SoundEntry entry in soundEntries)
         {
             if (entry.audioClip == null || entry.audioClip.Length == 0)
@@ -101,17 +101,17 @@ public class AudioManager : MonoBehaviour
                 Debug.LogWarning($"AudioManager: {entry.soundType} has no AudioClips assigned.");
                 continue;
             }
- 
+
             if (soundLookup.ContainsKey(entry.soundType))
             {
                 Debug.LogWarning($"AudioManager: {entry.soundType} is listed more than once. Using the first one.");
                 continue;
             }
- 
+
             soundLookup.Add(entry.soundType, entry);
         }
     }
- 
+
     /// <summary>
     /// Plays a sound effect once. Can be called from any script, e.g.
     /// AudioManager.Instance.PlaySound(SoundType.DiceRoll);
@@ -119,39 +119,40 @@ public class AudioManager : MonoBehaviour
     /// <param name="soundType">The sound to play.</param>
     public void PlaySound(SoundType soundType)
     {
-        if (!enabled)
+        if (!enabled || audioSource == null ||
+            !audioSource.enabled ||
+            !audioSource.gameObject.activeInHierarchy)
         {
+            Debug.LogWarning("AudioSource is disabled or unavailable.");
             return;
         }
- 
+
         if (!soundLookup.TryGetValue(soundType, out SoundEntry entry))
         {
             Debug.LogWarning($"AudioManager: no sound set up for {soundType}.");
             return;
         }
- 
-        AudioClip clip = entry.audioClip[UnityEngine.Random.Range(0, entry.audioClip.Length)];
-        
+
+        AudioClip clip = entry.audioClip[
+            UnityEngine.Random.Range(0, entry.audioClip.Length)
+        ];
+
         if (clip == null)
-        {
-            Debug.LogWarning($"AudioManager: {soundType} has no AudioClip assigned.");
             return;
-        }
 
-        audioSource.PlayOneShot(clip, entry.volume);
+        audioSource.PlayOneShot(clip, entry.volume * MasterVolume);
     }
-
     /// <summary>
     /// Plays a specific dice roll sound based on the roll value.
     /// </summary>
     /// <param name="roll"> The value that was rolled on the die (1-6)</param>
     public void PlayDiceRoll(int roll)
     {
-        if(roll == 1)
+        if (roll == 1)
         {
             PlaySound(SoundType.DiceRollOne);
         }
-        else if(roll == 6)
+        else if (roll == 6)
         {
             PlaySound(SoundType.DiceRollSix);
         }
@@ -160,7 +161,46 @@ public class AudioManager : MonoBehaviour
             PlaySound(SoundType.DiceRollNormal);
         }
     }
- 
+
+    public void PlayMusic(SoundType soundType)
+    {
+        if (!enabled || soundLookup == null)
+            return;
+
+        if (!soundLookup.TryGetValue(soundType, out SoundEntry entry))
+        {
+            Debug.LogWarning($"AudioManager: no music set up for {soundType}.");
+            return;
+        }
+
+        AudioClip clip = entry.audioClip[0];
+
+        if (clip == null)
+        {
+            Debug.LogWarning($"AudioManager: no AudioClip assigned for {soundType}.");
+            return;
+        }
+
+        // Avoid restarting music that is already playing.
+        if (audioSource.isPlaying && audioSource.clip == clip)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.loop = true;
+        audioSource.volume = entry.volume;
+        audioSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+    }
+
     /// <summary>
     /// Sets the master volume of the game and saves it to PlayerPrefs.
     /// </summary>
@@ -169,11 +209,11 @@ public class AudioManager : MonoBehaviour
     {
         MasterVolume = Mathf.Clamp01(volume);
         AudioListener.volume = MasterVolume;
- 
+
         PlayerPrefs.SetFloat(MasterVolumeKey, MasterVolume);
         PlayerPrefs.Save();
     }
- 
+
     /// <summary>
     /// Cleans up the static Instance reference when the AudioManager is destroyed
     /// to prevent dangling references.
