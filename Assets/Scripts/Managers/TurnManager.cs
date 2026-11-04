@@ -41,8 +41,6 @@ public class TurnManager : MonoBehaviour
 
     public event Action<PlayerBoardMovement> OnCurrentPlayerChanged;
 
-    public event Action<string> OnGameWon;
-
     public bool CanCurrentPlayerAct =>
     !gameOver &&
     !isTurnInProgress &&
@@ -180,7 +178,7 @@ public class TurnManager : MonoBehaviour
         if (humanCount > 0 && CurrentPlayerNumber > humanCount) { AutoPlay(); }
     }
 
-    private void HandlePlayerWon(string winnerName)
+    private void HandlePlayerWon()
     {
         if (gameOver)
             return;
@@ -193,8 +191,6 @@ public class TurnManager : MonoBehaviour
 
         // Prevent any further turn progression.
         isTurnInProgress = false;
-
-        OnGameWon?.Invoke(winnerName);
     }
 
     private void AutoPlay()
