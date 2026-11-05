@@ -3059,10 +3059,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 3840, y: 2160}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -6456,7 +6456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348264437}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1518.8615, y: 1235.5413, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6869,8 +6869,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364886717}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -56.96439, y: -92.96552, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -56.964355, y: -92.965576, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22812,11 +22812,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2634
+      value: 1.2634277
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.57
+      value: -5.5699463
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalPosition.z
@@ -22828,15 +22828,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 374068622869282742, guid: a51d66878ca50cc4bb4fb2eae3ba2930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -24162,7 +24162,7 @@ Transform:
   m_GameObject: {fileID: 1508592866}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.11405, y: -8.148514, z: 0}
+  m_LocalPosition: {x: -3.1140137, y: -8.14856, z: 0}
   m_LocalScale: {x: 5.95747, y: 5.45957, z: 6.6202397}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26432,8 +26432,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632939403}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.03628, y: -9.72616, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.036255, y: -9.726196, z: 0}
   m_LocalScale: {x: 70.873, y: 70.873, z: 70.873}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26464,7 +26464,7 @@ Transform:
   m_GameObject: {fileID: 1634301714}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.11405, y: -8.148514, z: 0}
+  m_LocalPosition: {x: -3.1140137, y: -8.14856, z: 0}
   m_LocalScale: {x: 5.95747, y: 5.45957, z: 6.6202397}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28205,7 +28205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757492758}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34562,13 +34562,13 @@ SceneRoots:
   m_Roots:
   - {fileID: 77669508}
   - {fileID: 670446660}
-  - {fileID: 191728567}
   - {fileID: 1757492759}
-  - {fileID: 1016156221}
   - {fileID: 364886718}
   - {fileID: 1632939405}
   - {fileID: 1426154435}
   - {fileID: 1634301715}
   - {fileID: 1508592868}
   - {fileID: 348264439}
+  - {fileID: 191728567}
+  - {fileID: 1016156221}
   - {fileID: 1922885966}
