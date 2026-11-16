@@ -188,7 +188,8 @@ public class AudioManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = clip;
         audioSource.loop = true;
-        audioSource.volume = entry.volume;
+        // audioSource.volume = entry.volume;
+        audioSource.volume = 1;
         audioSource.Play();
     }
 
